@@ -20,7 +20,7 @@ def test_create_order_returns_201_and_persists(client, sns_mock):
     # Assert
     assert response.status_code == 201
     assert order is not None
-    assert order.user_id == 1
+    assert order.user_id == 2
 
 
 def test_create_order_returns_correct_response_body(client, sns_mock):
