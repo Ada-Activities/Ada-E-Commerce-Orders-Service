@@ -44,7 +44,7 @@ def update_model(obj, data):
 
 def create_order(cls, model_data):
     sns = boto3.resource('sns')
-    arn = sns.Topic(os.environ.get("ARN"))
+    arn = os.environ.get("ARN")
 
     new_order = cls.from_dict(model_data)
     line_items = []
@@ -64,8 +64,9 @@ def create_order(cls, model_data):
         "payload": new_order.to_dict()
     }
 
-    if arn: 
-        arn.publish(
+    if arn:
+        topic = sns.Topic(arn) 
+        topic.publish(
             Message=json.dumps(message),
             MessageGroupId="orders",
             MessageDeduplicationId=str(new_order.id)
